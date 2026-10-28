@@ -159,4 +159,160 @@ class New {
     }
 }
 
+44444444444444444444444
 
+# PROGRAM 10: DOCKER AND JENKINS PIPELINE
+
+## Step 1: Open Docker Desktop and verify installation
+
+```cmd
+docker version
+docker images
+```
+
+## Step 2: Create a folder named Program10 on Desktop
+
+```cmd
+cd %USERPROFILE%\Desktop
+mkdir Program10
+cd Program10
+notepad app.py
+```
+
+`app.py` file alli:
+
+```python
+print("Hello Aishwarya!")
+print("Docker Image Build")
+```
+
+Save maadi close maadu.
+
+## Step 3: Create Dockerfile
+
+```cmd
+notepad Dockerfile
+```
+
+Dockerfile alli ee code paste maadu:
+
+```dockerfile
+FROM python:3.10
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+```
+
+Save maadi close maadu.
+
+## Step 4: Build and run Docker image
+
+```cmd
+docker build -t program10 .
+docker images
+docker run --rm program10
+```
+
+## Step 5: Tag and push Docker image to Docker Hub
+
+```cmd
+docker login
+docker tag program10 aishwarya0625/program10:latest
+docker push aishwarya0625/program10:latest
+```
+
+## Step 6: Push project code to GitHub
+
+```cmd
+git init
+git add .
+git commit -m "Program 10 Docker Project"
+git branch -M main
+git remote add origin https://github.com/Aishwarya0625/Program10.git
+git push -u origin main
+```
+
+## Step 7: Create Docker Hub access token
+
+1. Open https://hub.docker.com/
+2. Login to Docker Hub.
+3. Go to Account Settings.
+4. Open Personal access tokens.
+5. Click Generate new token.
+6. Give token name `jenkins-token`.
+7. Select required read/write permissions and generate token.
+8. Copy and save the token securely.
+
+## Step 8: Create Jenkinsfile
+
+```cmd
+notepad Jenkinsfile
+```
+
+Paste this code:
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Aishwarya0625/Program10.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'docker build -t aishwarya0625/program10:latest .'
+            }
+        }
+
+        stage('Login') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'TOKEN')]) {
+                    bat 'echo %TOKEN% | docker login -u aishwarya0625 --password-stdin'
+                }
+            }
+        }
+
+        stage('Push') {
+            steps {
+                bat 'docker push aishwarya0625/program10:latest'
+            }
+        }
+    }
+}
+```
+
+Save maadi close maadu. GitHub-ge Jenkinsfile kooda push maadu:
+
+```cmd
+git add .
+git commit -m "Add Jenkinsfile"
+git push origin main
+```
+
+## Step 9: Add Docker Hub credential in Jenkins
+
+1. Open `http://localhost:8080`
+2. Manage Jenkins → Credentials.
+3. Select Global credentials → Add Credentials.
+4. Kind: **Secret text**
+5. Secret: Docker Hub access token.
+6. ID: `dockerhub-token`
+7. Click Create.
+
+## Step 10: Build Jenkins Pipeline
+
+1. Jenkins → New Item.
+2. Name: `Program10-Pipeline`.
+3. Select Pipeline → OK.
+4. Definition: **Pipeline script from SCM**.
+5. SCM: Git.
+6. Repository URL: `https://github.com/Aishwarya0625/Program10.git`
+7. Branch: `*/main`
+8. Script Path: `Jenkinsfile`
+9. Save → Build Now.
+10. Console Output alli `Finished: SUCCESS` check maadu.
