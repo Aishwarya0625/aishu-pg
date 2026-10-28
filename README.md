@@ -61,3 +61,62 @@ docker stop myapp3-container
 
 
 333333333333333333333333333333
+
+
+
+tomcat
+
+→ create new folder with name "myapp" & create "index.html" file.
+
+→ Create Dockerfile inside myapp & type this
+
+FROM tomcat:10.1-jdk17-temurin
+COPY index.html /usr/local/tomcat/webapps/myapp/index.html
+EXPOSE 8080
+
+→ Go to cmd inside myapp folder, type this
+
+docker build -t my-tomcat .
+docker images
+docker run -d -p 8081:8080 --name my-tomcat-container my-tomcat
+
+→ open chrome, localhost:8081/myapp/
+
+it should display what you hv written in html.
+
+
+4444444444444444444444444444
+
+1. Create a GitHub repository.
+2. Create a file in the repository.
+
+   File: Readme.md
+
+   Content: Welcome to my github.
+3. In cmd type the command:
+
+   cloudflared-windows-amd64.exe tunnel --url http://localhost:8080
+   
+4. Create a new item in Jenkins >  freestyleProject
+
+5. Source Code Management > Git > Paste GitHub repo URL > Cross check the branch name in GitHub.
+
+6. Triggers > GitHub hook triggers for GITScm Polling.
+
+7. Build Steps > Add build steps > Execute Windows batch command > Apply > Save.
+
+8. Copy the link from cmd from the box and paste it to Webhooks.
+
+   After pasting the link type /github-webhook/
+
+9. Content type > application/json > Add webhook.
+
+10. Verify the webhook.
+11. Edit the readme file, add extra line and commit changes.
+12. Go to Jenkins, automatic build will create.
+
+
+
+555555555555555555555555555555555555555555
+
+
