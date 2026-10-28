@@ -120,3 +120,34 @@ it should display what you hv written in html.
 555555555555555555555555555555555555555555
 
 
+
+name: Java CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Compile Java program
+        run: javac new.java
+
+      - name: Run Java program
+        run: java New
+
+
