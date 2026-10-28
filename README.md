@@ -119,7 +119,7 @@ it should display what you hv written in html.
 
 555555555555555555555555555555555555555555
 
-
+.github(folder)(workflow)
 
 name: Java CI/CD Pipeline
 
@@ -149,5 +149,14 @@ jobs:
 
       - name: Run Java program
         run: java New
+
+new.jave (this file paste)
+        
+class New {
+    public static void main(String[] args) {
+        System.out.println("Hello Aishwarya!");
+        System.out.println("Maven CI/CD Pipeline");
+    }
+}
 
 
